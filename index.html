@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="box">看不到看不到</div>
+    <button onclick="success()">我是按钮</button>
+    <script>
+        const startTime = Date.now();
+        const q = new Array(12).fill(0).map(v => {
+          const p = new Promise((r) => {
+            const xhr = new XMLHttpRequest();
+    
+            xhr.onreadystatechange = () => {
+              if (xhr.readyState === 4 && xhr.status === 200) {
+                r();
+              }
+            };
+            xhr.open('GET', '/data', true);
+            xhr.send();
+          });
+    
+          return p;
+        });
+        Promise.all(q).then(rs => {
+            console.log(rs);
+            
+          console.log(Date.now() - startTime);
+        });
+
+    </script>
+</body>
+
+</html>
